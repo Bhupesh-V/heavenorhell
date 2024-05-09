@@ -1,19 +1,30 @@
 package main
 
 import (
+	"heavenorhell/constants"
 	"heavenorhell/instance"
 	"log"
+	"math/rand"
 	"net/http"
 
 	"github.com/r3labs/sse/v2"
 )
 
 func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
-	log.Printf("Got trigger request. Sending SSE")
+	// log.Printf("Got trigger request. Sending SSE")
+
+	var message string
+	if afterlife == "Heaven" {
+		// pick random message from HeavenMessages
+		message = constants.HeavenMessages[rand.Intn(len(constants.HeavenMessages))]
+	} else {
+		// pick random message from HellMessages
+		message = constants.HellMessages[rand.Intn(len(constants.HellMessages))]
+	}
 
 	server := instance.SSEServer()
 	server.Publish("messages", &sse.Event{
-		Data: []byte("Someone choosen " + afterlife),
+		Data: []byte(message),
 	})
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
