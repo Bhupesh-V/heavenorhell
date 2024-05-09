@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/r3labs/sse/v2"
@@ -17,6 +18,7 @@ import (
 var (
 	heavenBookings = 0
 	hellBookings   = 0
+	mu             = &sync.Mutex{}
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -37,6 +39,7 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	})
 
 	var message string
+	mu.Lock()
 	if afterlife == "Heaven" {
 		// pick random message from HeavenMessages
 		message = constants.HeavenMessages[rand.Intn(len(constants.HeavenMessages))]
@@ -46,6 +49,7 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 		message = constants.HellMessages[rand.Intn(len(constants.HellMessages))]
 		hellBookings++
 	}
+	mu.Unlock()
 
 	server := instance.SSEServer()
 	server.Publish("messages", &sse.Event{

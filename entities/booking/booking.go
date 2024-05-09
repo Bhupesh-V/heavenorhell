@@ -20,24 +20,33 @@ func (b *Bookings) Update() error {
 	storeInstance := instance.Store()
 	client := instance.GitHubClient()
 
-	// Marshal the struct back into JSON
-	bookingsJson, err := json.Marshal(b)
+	currentBookings, err := GetBookings()
 	if err != nil {
-		log.Println("Error marshalling emails")
+		log.Println("Error getting bookings")
 		return err
 	}
 
-	gist := storeInstance.DataFile
+	// only update the gist if the booking counts have changed
+	if b.Heaven > currentBookings.Heaven || b.Hell > currentBookings.Hell {
+		// Marshal the struct back into JSON
+		bookingsJson, err := json.Marshal(b)
+		if err != nil {
+			log.Println("Error marshalling emails")
+			return err
+		}
 
-	file := gist.Files[github.GistFilename(constants.STORE_FILE_NAME)]
-	file.Content = github.String(string(bookingsJson))
-	gist.Files[github.GistFilename(constants.STORE_FILE_NAME)] = file
+		gist := storeInstance.DataFile
 
-	// Update the gist
-	_, _, err = client.Gists.Edit(ctx, storeInstance.StoreID, gist)
-	if err != nil {
-		log.Println("Error updating hellorheaven bookings gist")
-		return err
+		file := gist.Files[github.GistFilename(constants.STORE_FILE_NAME)]
+		file.Content = github.String(string(bookingsJson))
+		gist.Files[github.GistFilename(constants.STORE_FILE_NAME)] = file
+
+		// Update the gist
+		_, _, err = client.Gists.Edit(ctx, storeInstance.StoreID, gist)
+		if err != nil {
+			log.Println("Error updating hellorheaven bookings gist")
+			return err
+		}
 	}
 	return nil
 }
