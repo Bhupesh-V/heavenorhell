@@ -3,15 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Heaven or Hell: It's time to book a ticket for your soul">
-    <meta name="keywords" content="heaven, hell, soul, ticket">
-    <meta name="og:title" content="Book a ticket for your soul">
-    <meta name="og:description" content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late">
-    <meta name="og:image" content="https://i.imgur.com/7Q3vQvK.png">
-    <meta name="og:url" content="https://soul-ticket.web.ctfcompetition.com">
-    <meta name="og:type" content="website">
-    <meta name="og:site_name" content="Book a ticket for your soul">
-    <meta name="og:locale" content="en_US">
+    <meta
+      name="description"
+      content="Heaven or Hell: It's time to book a ticket for your soul"
+    />
+    <meta name="keywords" content="heaven, hell, soul, ticket" />
+    <meta name="og:title" content="Book a ticket for your soul" />
+    <meta
+      name="og:description"
+      content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late"
+    />
+    <meta name="og:image" content="https://i.imgur.com/7Q3vQvK.png" />
+    <meta name="og:url" content="https://soul-ticket.web.ctfcompetition.com" />
+    <meta name="og:type" content="website" />
+    <meta name="og:site_name" content="Book a ticket for your soul" />
+    <meta name="og:locale" content="en_US" />
 
     <title>Book a ticket for your soul</title>
     <link
@@ -19,89 +25,134 @@
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     />
     <style>
-        #soul-stream {
-          height: 200px;
-          max-width: 80%;
-          overflow-y: auto;
-          border: 1px solid #ccc;
-          padding: 10px;
-          margin: 10px 0;
-          list-style-type: none;
-          font-family: Arial, sans-serif;
-          font-size: 14px;
-          line-height: 1.5;
-          background-color: #31446b;
-        }
-        #soul-stream div {
-            padding: 10px;
-            size: 34px;
-          }
-        #oldUser {
-            display: none;
-            color: red;
-        }
-      </style>
+      #soul-stream {
+        height: 200px;
+        max-width: 80%;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        list-style-type: none;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        background-color: #31446b;
+      }
+      #soul-stream div {
+        padding: 10px;
+        size: 34px;
+      }
+      #oldUser {
+        display: none;
+        color: red;
+      }
+      #heaven-count-container,
+      #hell-count-container {
+        display:block;
+      }
+      #heaven-count,
+      #hell-count {
+        margin-right: 5px;
+      }
+      #ticketStats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 28px;
+      }
+    </style>
   </head>
   <body>
     <center>
-    <main class="container"">
-        <br>
-      <h1>Give up & Book a ticket for your soul</h1>
+      <main class="container">
+        <br />
+        <h1>Give up & Book a ticket for your soul</h1>
         <div id="oldUser">
           You are already booked buddy, see you in the afterlife!
         </div>
         <div id="choices">
-            <button id="choose-heaven" hx-post="/choose-heaven" hx-target="#choices" hx-swap="outerHTML">😇 Heaven</button>
-            <button id="choose-hell" hx-post="/choose-hell" hx-target="#choices" hx-swap="outerHTML">👹 Hell</button>
+          <button
+            id="choose-heaven"
+            hx-post="/choose-heaven"
+            hx-target="#choices"
+            hx-swap="outerHTML"
+          >
+            😇 Heaven
+          </button>
+          <button
+            id="choose-hell"
+            hx-post="/choose-hell"
+            hx-target="#choices"
+            hx-swap="outerHTML"
+          >
+            👹 Hell
+          </button>
         </div>
-      <br><br>
-      <section>
-        <h4>25 people are booked for hell</h4>
-        <h4>25 people are booked for heaven</h4>
-      </section>
-      <br><br>
-      <section>
-        <h2>Soul Stream</h2>
-        <p>Livestream of souls around the world booking their tickets</p>
-      <div id="soul-stream"></div>
-      </section>
-    </main>
-    <footer>
-        <p><i>Built by <a href="https://bhupesh.me">Bhupesh</a> with fear of god in his ❤️</i></p>
+        <br /><br />
+        <div id="ticketStats">
+          <div id="heaven-count-container">
+            <div id="heaven-count">{{.HeavenCount}}</div>
+            souls are planning to go to heaven
+            <div>😇</div>
+          </div>
+
+          <div id="hell-count-container">
+            <div id="hell-count">{{.HellCount}}</div>
+            souls are ready to repent in hell
+            <div>👹</div>
+          </div>
+        </div>
+        <br /><br />
+        <section>
+          <h2>Soul Stream</h2>
+          <p>Livestream of souls around the world booking their tickets</p>
+          <div id="soul-stream"></div>
+        </section>
+      </main>
+      <footer>
+        <p>
+          <i
+            >Built by <a href="https://bhupesh.me">Bhupesh</a> with fear of god
+            in his ❤️</i
+          >
+        </p>
         <small>Hosted by <a href="https://buildndeploy.co/">BnD</a></small>
-    </footer>
+      </footer>
     </center>
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const cookieValue = document.cookie
-              .split('; ')
-              .find(row => row.startsWith('isTicketBooked'))
-              .split('=')[1];
-          
-            if (cookieValue === 'true') {
-              document.getElementById('choices').style.display = 'none';
-              document.getElementById('oldUser').style.display = 'block';
-            }
-          });
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const cookieValue = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("isTicketBooked"))
+          .split("=")[1];
+
+        if (cookieValue === "true") {
+          document.getElementById("choices").style.display = "none";
+          document.getElementById("oldUser").style.display = "block";
+        }
+      });
     </script>
     <script>
-        const evtSource = new EventSource("/events?stream=messages");
-        const soulStream = document.getElementById('soul-stream');
-        
-        evtSource.onmessage = function (event) {
-          // Create a new div element for the new message
-          const newMessage = document.createElement('div');
-          newMessage.textContent = event.data;
-        
-          // Add the new message at the top of the soul stream
-          soulStream.insertBefore(newMessage, soulStream.firstChild);
-        
-          // Remove the message after 3 seconds
-         setTimeout(() => {
-           soulStream.removeChild(newMessage);
-         }, 3000);
-        }
-        </script>
+      const evtSource = new EventSource("/events?stream=messages");
+      const soulStream = document.getElementById("soul-stream");
+
+      evtSource.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        document.getElementById("heaven-count").textContent =
+          data.counts.heaven;
+        document.getElementById("hell-count").textContent = data.counts.hell;
+        // Create a new div element for the new message
+        const newMessage = document.createElement("div");
+        newMessage.textContent = data.message;
+
+        // Add the new message at the top of the soul stream
+        soulStream.insertBefore(newMessage, soulStream.firstChild);
+
+        // Remove the message after 3 seconds
+        setTimeout(() => {
+          soulStream.removeChild(newMessage);
+        }, 3000);
+      };
+    </script>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
   </body>
 </html>

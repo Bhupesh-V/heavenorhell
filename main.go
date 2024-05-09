@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"heavenorhell/constants"
 	"heavenorhell/entities/booking"
 	"heavenorhell/instance"
+	"html/template"
 	"log"
 	"math/rand"
 	"net/http"
@@ -22,6 +24,11 @@ var (
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+type TemplateData struct {
+	HeavenCount int
+	HellCount   int
+}
 
 func generateTicketID(afterlife string) string {
 	rand.Seed(time.Now().UnixNano())
@@ -51,9 +58,22 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	}
 	mu.Unlock()
 
+	data := map[string]interface{}{
+		"message": message,
+		"counts": map[string]int{
+			"heaven": heavenBookings,
+			"hell":   hellBookings,
+		},
+	}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Println("Error marshaling data:", err)
+		return
+	}
+
 	server := instance.SSEServer()
 	server.Publish("messages", &sse.Event{
-		Data: []byte(message),
+		Data: jsonData,
 	})
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
@@ -70,11 +90,13 @@ func main() {
 		log.Println("Error getting bookings")
 		return
 	}
-
-	fmt.Println(bookings)
+	// server has been restarted, so we need to get the bookings from the gist
+	if bookings.Heaven > 0 || bookings.Hell > 0 {
+		heavenBookings = bookings.Heaven
+		hellBookings = bookings.Hell
+	}
 
 	server := instance.SSEServer()
-
 	server.CreateStream("messages")
 
 	mux := http.NewServeMux()
@@ -86,7 +108,24 @@ func main() {
 		logHTTPRequest(w, r, "Hell")
 	})
 
-	mux.Handle("/", http.FileServer(http.Dir("./static")))
+	// mux.Handle("/", http.FileServer(http.Dir("./static")))
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		data := TemplateData{
+			HeavenCount: heavenBookings,
+			HellCount:   hellBookings,
+		}
+
+		tmpl, err := template.ParseFiles("static/index.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
 	addr := ":8080"
 	log.Println("Starting server on", addr)
 
