@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book a ticket for your soul</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+        #soul-stream {
+          height: 200px;
+          max-width: 40%;
+          overflow-y: auto;
+          border: 1px solid #ccc;
+          padding: 10px;
+          margin: 10px 0;
+          list-style-type: none;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          line-height: 1.5;
+          background-color: #31446b;
+        }
+        #soul-stream div {
+            padding: 10px;
+          }
+      </style>
+  </head>
+  <body>
+    <center>
+    <main class="container"">
+      <h1>Book a ticket for your soul</h1>
+      <div id="button-container">
+        <button id="choose-heaven" hx-post="/choose-heaven" hx-target="#button-container" hx-swap="outerHTML">😇 Heaven</button>
+        <button id="choose-hell" hx-post="/choose-hell" hx-target="#button-container" hx-swap="outerHTML">👹 Hell</button>
+      </div>
+      <br>
+      <section>
+        <h2>Soul Stream</h2>
+      <div id="soul-stream"></div>
+      </section>
+    </main>
+    </center>
+    <script>
+        const evtSource = new EventSource("/events?stream=messages");
+        const soulStream = document.getElementById('soul-stream');
+        
+        evtSource.onmessage = function (event) {
+          // Create a new div element for the new message
+          const newMessage = document.createElement('div');
+          newMessage.textContent = event.data;
+        
+          // Add the new message at the top of the soul stream
+          soulStream.insertBefore(newMessage, soulStream.firstChild);
+        
+          // Remove the message after 3 seconds
+         setTimeout(() => {
+           soulStream.removeChild(newMessage);
+         }, 3000);
+        };
+        </script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  </body>
+</html>
