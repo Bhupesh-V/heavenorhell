@@ -1,7 +1,6 @@
 package instance
 
 import (
-	"log"
 	"sync"
 
 	"github.com/r3labs/sse/v2"
@@ -24,10 +23,10 @@ func Init() {
 			"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 		}
 		server.OnSubscribe = func(streamID string, sub *sse.Subscriber) {
-			log.Println("A new client Subscribed", streamID)
+			// log.Println("A new client Subscribed", streamID)
 		}
 		server.OnUnsubscribe = func(streamID string, sub *sse.Subscriber) {
-			log.Println("A client UnSubscribed", streamID)
+			// log.Println("A client UnSubscribed", streamID)
 		}
 		singleton.sseServer = server
 	})

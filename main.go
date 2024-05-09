@@ -1,17 +1,33 @@
 package main
 
 import (
+	"fmt"
 	"heavenorhell/constants"
 	"heavenorhell/instance"
 	"log"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/r3labs/sse/v2"
 )
 
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+func generateTicketID(afterlife string) string {
+	rand.Seed(time.Now().UnixNano())
+	b := make([]byte, 13)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return fmt.Sprintf("%s-%s", afterlife, string(b))
+}
+
 func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
-	// log.Printf("Got trigger request. Sending SSE")
+	http.SetCookie(w, &http.Cookie{
+		Name:  "isTicketBooked",
+		Value: "true",
+	})
 
 	var message string
 	if afterlife == "Heaven" {
@@ -30,7 +46,7 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	w.WriteHeader(http.StatusOK)
 
 	// Write the response body
-	response := "You have chosen " + afterlife
+	response := fmt.Sprintf("You are booked for %s, your ticket id is <b>#%s</b>", afterlife, generateTicketID(afterlife))
 	w.Write([]byte(response))
 }
 

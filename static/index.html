@@ -1,8 +1,3 @@
-<!--
-
-Maybe look into your own soul first before looking into mine you coward!
-
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,26 +36,28 @@ Maybe look into your own soul first before looking into mine you coward!
             padding: 10px;
             size: 34px;
           }
+        #oldUser {
+            display: none;
+            color: red;
+        }
       </style>
   </head>
   <body>
-<!--
-
-God is watching you! Repent now!
-
--->
     <center>
     <main class="container"">
         <br>
-      <h1>Book a ticket for your soul</h1>
-      <div id="button-container">
-        <button id="choose-heaven" hx-post="/choose-heaven" hx-target="#button-container" hx-swap="outerHTML">😇 Heaven</button>
-        <button id="choose-hell" hx-post="/choose-hell" hx-target="#button-container" hx-swap="outerHTML">👹 Hell</button>
-      </div>
+      <h1>Give up & Book a ticket for your soul</h1>
+        <div id="oldUser">
+          You are already booked buddy, see you in the afterlife!
+        </div>
+        <div id="choices">
+            <button id="choose-heaven" hx-post="/choose-heaven" hx-target="#choices" hx-swap="outerHTML">😇 Heaven</button>
+            <button id="choose-hell" hx-post="/choose-hell" hx-target="#choices" hx-swap="outerHTML">👹 Hell</button>
+        </div>
       <br><br>
       <section>
-        <h4>25 people are going to hell</h4>
-        <h4>25 people are going to heaven</h4>
+        <h4>25 people are booked for hell</h4>
+        <h4>25 people are booked for heaven</h4>
       </section>
       <br><br>
       <section>
@@ -73,6 +70,19 @@ God is watching you! Repent now!
         <small>Hosted by <a href="https://buildndeploy.co/">BnD</a></small>
     </footer>
     </center>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const cookieValue = document.cookie
+              .split('; ')
+              .find(row => row.startsWith('isTicketBooked'))
+              .split('=')[1];
+          
+            if (cookieValue === 'true') {
+              document.getElementById('choices').style.display = 'none';
+              document.getElementById('oldUser').style.display = 'block';
+            }
+          });
+    </script>
     <script>
         const evtSource = new EventSource("/events?stream=messages");
         const soulStream = document.getElementById('soul-stream');
