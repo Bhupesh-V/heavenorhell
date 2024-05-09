@@ -16,3 +16,7 @@ var (
 		"Someones sins have been forgiven and is going to heaven",
 	}
 )
+
+const (
+	STORE_FILE_NAME = "heavenorhell.json"
+)
