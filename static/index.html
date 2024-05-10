@@ -1,235 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Heaven or Hell: It's time to book a ticket for your soul"
-    />
-    <meta name="keywords" content="heaven, hell, soul, ticket" />
-    <meta
-      property="og:title"
-      content="Heaven or Hell? Book a ticket for your soul!"
-    />
-    <meta
-      property="og:description"
-      content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://heavenorhell.xyz/" />
-    <meta
-      property="og:image"
-      content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png"
-    />
-    <meta
-      name="twitter:image"
-      content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@bhupeshimself" />
-    <meta
-      name="twitter:title"
-      content="Heaven or Hell? Book a ticket for your soul!"
-    />
-    <meta
-      name="twitter:description"
-      content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late"
-    />
 
-    <title>Book a ticket for your soul</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
-    <style>
-      #soul-stream {
-        height: 200px;
-        max-width: 80%;
-        overflow-y: auto;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 10px 0;
-        list-style-type: none;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        background-color: #31446b;
-      }
-      #soul-stream div {
-        padding: 10px;
-        size: 34px;
-      }
-      #oldUser {
-        display: none;
-        color: red;
-      }
-      #heaven-count-container,
-      #hell-count-container {
-        display: block;
-      }
-      #heaven-count,
-      #hell-count {
-        margin-right: 5px;
-      }
-      #ticketStats {
-        display: flex;
-        justify-content: space-between;
-        font-size: 28px;
-      }
-      .ticketText {
-        border-style: dashed;
-        padding: 5px;
-      }
-      .Heaven {
-        color: #00ffcd;
-      }
-      .Hell {
-        color: #fe1a5a;
-      }
-      .soulName {
-        max-width: 80%;
-      }
-    </style>
-  </head>
-  <body>
-    <center>
-      <main class="container">
-        <br />
-        <h1>Give up & Book a ticket for your soul</h1>
-        <div id="oldUser">
-          You are already booked buddy, see you in the afterlife!
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>{{.FaviconEmoji}}</text></svg>">
+  <meta name="description" content="Heaven or Hell: It's time to book a ticket for your soul" />
+  <meta name="keywords" content="heaven, hell, soul, ticket" />
+  <meta property="og:title" content="Heaven or Hell? Book a FREE ticket for your soul!" />
+  <meta property="og:description"
+    content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://heavenorhell.xyz/" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png" />
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@bhupeshimself" />
+  <meta name="twitter:title" content="Heaven or Hell? Book a ticket for your soul!" />
+  <meta name="twitter:description"
+    content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late" />
+
+  <title>Book a FREE ticket to heaven or hell for your soul</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <style>
+    #soul-stream {
+      height: 200px;
+      max-width: 80%;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      list-style-type: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      background-color: #31446b;
+    }
+
+    #soul-stream div {
+      padding: 10px;
+      size: 34px;
+    }
+
+    #oldUser {
+      display: none;
+      color: red;
+    }
+
+    #heaven-count-container,
+    #hell-count-container {
+      display: block;
+    }
+
+    #heaven-count,
+    #hell-count {
+      margin-right: 5px;
+    }
+
+    #ticketStats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 28px;
+    }
+
+    .ticketText {
+      border-style: dashed;
+      padding: 5px;
+    }
+
+    .Heaven {
+      color: #00ffcd;
+    }
+
+    .Hell {
+      color: #fe1a5a;
+    }
+
+    .soulName {
+      max-width: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <main class="container">
+      <br />
+      <h1>Give up & Book a ticket for your soul</h1>
+      <div id="oldUser">
+        You are already booked buddy, see you in the afterlife!
+      </div>
+      <div id="choices">
+        <input type="text" name="name" class="soulName" placeholder="What do they call you on earth?" /><br />
+        <button id="choose-heaven" hx-post="/choose-heaven" onclick="this.href += document.getElementById('name').value"
+          hx-include="[name='name']" hx-target="#choices" hx-swap="outerHTML">
+          😇 Heaven
+        </button>
+        <button id="choose-hell" hx-post="/choose-hell" onclick="this.href += document.getElementById('name').value"
+          hx-include="[name='name']" hx-target="#choices" hx-swap="outerHTML">
+          👹 Hell
+        </button>
+      </div>
+      <br /><br />
+      <div id="ticketStats">
+        <div id="heaven-count-container">
+          <div id="heaven-count">{{.HeavenCount}}</div>
+          souls are planning to go to heaven
+          <div>😇</div>
         </div>
-        <div id="choices">
-          <input
-            type="text"
-            name="name"
-            class="soulName"
-            placeholder="What do they call you on earth?"
-          /><br />
-          <button
-            id="choose-heaven"
-            hx-post="/choose-heaven"
-            onclick="this.href += document.getElementById('name').value"
-            hx-include="[name='name']"
-            hx-target="#choices"
-            hx-swap="outerHTML"
-          >
-            😇 Heaven
-          </button>
-          <button
-            id="choose-hell"
-            hx-post="/choose-hell"
-            onclick="this.href += document.getElementById('name').value"
-            hx-include="[name='name']"
-            hx-target="#choices"
-            hx-swap="outerHTML"
-          >
-            👹 Hell
-          </button>
+
+        <div id="hell-count-container">
+          <div id="hell-count">{{.HellCount}}</div>
+          souls are ready to repent in hell
+          <div>👹</div>
         </div>
-        <br /><br />
-        <div id="ticketStats">
-          <div id="heaven-count-container">
-            <div id="heaven-count">{{.HeavenCount}}</div>
-            souls are planning to go to heaven
-            <div>😇</div>
-          </div>
+      </div>
+      <br /><br />
+      <section>
+        <h2>Soul Stream</h2>
+        <p>Livestream of souls around the world booking their tickets</p>
+        <div id="soul-stream"></div>
+      </section>
+    </main>
+    <footer>
+      <p>
+        <i>Built by <a href="https://bhupesh.me">Bhupesh</a> with fear of god
+          in his ❤️</i>
+      </p>
+      <small>Hosted by <a href="https://buildndeploy.co/">BnD</a></small>
+    </footer>
+  </center>
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      const nameInput = document.querySelector(".soulName");
+      const heavenButton = document.getElementById("choose-heaven");
+      const hellButton = document.getElementById("choose-hell");
+      // Initially hide the buttons
+      heavenButton.style.display = "none";
+      hellButton.style.display = "none";
 
-          <div id="hell-count-container">
-            <div id="hell-count">{{.HellCount}}</div>
-            souls are ready to repent in hell
-            <div>👹</div>
-          </div>
-        </div>
-        <br /><br />
-        <section>
-          <h2>Soul Stream</h2>
-          <p>Livestream of souls around the world booking their tickets</p>
-          <div id="soul-stream"></div>
-        </section>
-      </main>
-      <footer>
-        <p>
-          <i
-            >Built by <a href="https://bhupesh.me">Bhupesh</a> with fear of god
-            in his ❤️</i
-          >
-        </p>
-        <small>Hosted by <a href="https://buildndeploy.co/">BnD</a></small>
-      </footer>
-    </center>
-    <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        const nameInput = document.querySelector(".soulName");
-        const heavenButton = document.getElementById("choose-heaven");
-        const hellButton = document.getElementById("choose-hell");
-        // Initially hide the buttons
-        heavenButton.style.display = "none";
-        hellButton.style.display = "none";
-
-        nameInput.addEventListener("input", () => {
-          if (nameInput.value.trim() !== "") {
-            // Show the buttons if the input field is not empty
-            heavenButton.style.display = "inline";
-            hellButton.style.display = "inline";
-          } else {
-            // Hide the buttons if the input field is empty
-            heavenButton.style.display = "none";
-            hellButton.style.display = "none";
-          }
-        });
-      });
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        const cookieValue = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("isTicketBooked"))
-          .split("=")[1];
-
-        if (cookieValue === "true") {
-          document.getElementById("choices").style.display = "none";
-          document.getElementById("oldUser").style.display = "block";
+      nameInput.addEventListener("input", () => {
+        if (nameInput.value.trim() !== "") {
+          // Show the buttons if the input field is not empty
+          heavenButton.style.display = "inline";
+          hellButton.style.display = "inline";
+        } else {
+          // Hide the buttons if the input field is empty
+          heavenButton.style.display = "none";
+          hellButton.style.display = "none";
         }
       });
-    </script>
-    <script>
-      const evtSource = new EventSource("/events?stream=messages");
-      const soulStream = document.getElementById("soul-stream");
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("isTicketBooked"))
+        .split("=")[1];
 
-      evtSource.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        document.getElementById("heaven-count").textContent =
-          data.counts.heaven;
-        document.getElementById("hell-count").textContent = data.counts.hell;
-        // Create a new div element for the new message
-        const newMessage = document.createElement("div");
-        newMessage.textContent = data.message;
-
-        // Add the new message at the top of the soul stream
-        soulStream.insertBefore(newMessage, soulStream.firstChild);
-
-        // Remove the message after 3 seconds
-        setTimeout(() => {
-          soulStream.removeChild(newMessage);
-        }, 6000);
-      };
-    </script>
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-4TLGZ809LM"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      if (cookieValue === "true") {
+        document.getElementById("choices").style.display = "none";
+        document.getElementById("oldUser").style.display = "block";
       }
-      gtag("js", new Date());
+    });
+  </script>
+  <script>
+    const evtSource = new EventSource("/events?stream=messages");
+    const soulStream = document.getElementById("soul-stream");
 
-      gtag("config", "G-4TLGZ809LM");
-    </script>
-  </body>
+    evtSource.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      document.getElementById("heaven-count").textContent =
+        data.counts.heaven;
+      document.getElementById("hell-count").textContent = data.counts.hell;
+      // Create a new div element for the new message
+      const newMessage = document.createElement("div");
+      newMessage.textContent = data.message;
+
+      // Add the new message at the top of the soul stream
+      soulStream.insertBefore(newMessage, soulStream.firstChild);
+
+      // Remove the message after 3 seconds
+      setTimeout(() => {
+        soulStream.removeChild(newMessage);
+      }, 6000);
+    };
+  </script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TLGZ809LM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-4TLGZ809LM");
+  </script>
+</body>
+
 </html>

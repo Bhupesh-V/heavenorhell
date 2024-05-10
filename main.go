@@ -27,8 +27,9 @@ var (
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 type TemplateData struct {
-	HeavenCount int
-	HellCount   int
+	HeavenCount  int
+	HellCount    int
+	FaviconEmoji string
 }
 
 func generateTicketID(afterlife string) string {
@@ -113,9 +114,12 @@ func main() {
 
 	// mux.Handle("/", http.FileServer(http.Dir("./static")))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		emojis := []string{"👹", "😇"}
+		rand.Seed(time.Now().UnixNano())
 		data := TemplateData{
-			HeavenCount: heavenBookings,
-			HellCount:   hellBookings,
+			HeavenCount:  heavenBookings,
+			HellCount:    hellBookings,
+			FaviconEmoji: emojis[rand.Intn(len(emojis))],
 		}
 
 		tmpl, err := template.ParseFiles("static/index.html")
