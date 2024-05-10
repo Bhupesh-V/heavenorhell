@@ -6,8 +6,8 @@ RUN go mod download
 COPY . ./
 RUN go build -o heavenorhell main.go
 
-FROM alpine:3
-WORKDIR /app
-COPY --from=base /src/heavenorhell .
+# FROM alpine:3
+# WORKDIR /app
+# COPY --from=base /src/heavenorhell .
 EXPOSE 8080
 CMD ["./heavenorhell"]

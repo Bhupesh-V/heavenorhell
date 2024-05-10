@@ -6,6 +6,7 @@ import (
 	"heavenorhell/constants"
 	"heavenorhell/instance"
 	"log"
+	"time"
 
 	"github.com/google/go-github/github"
 )
@@ -28,6 +29,7 @@ func (b *Bookings) Update() error {
 
 	// only update the gist if the booking counts have changed
 	if b.Heaven > currentBookings.Heaven || b.Hell > currentBookings.Hell {
+		log.Printf("Updating bookings at %s\n", time.Now().Format("2006-01-02 15:04:05"))
 		// Marshal the struct back into JSON
 		bookingsJson, err := json.Marshal(b)
 		if err != nil {
@@ -47,6 +49,9 @@ func (b *Bookings) Update() error {
 			log.Println("Error updating hellorheaven bookings gist")
 			return err
 		}
+	} else {
+		// this log should print every 10 minutes
+		log.Println("Bookings have not changed")
 	}
 	return nil
 }

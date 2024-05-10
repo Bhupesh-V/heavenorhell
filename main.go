@@ -137,7 +137,6 @@ func main() {
 				Heaven: heavenBookings,
 				Hell:   hellBookings,
 			}
-			log.Printf("Updating bookings at %s\n", time.Now().Format("2006-01-02 15:04:05"))
 			err := bookings.Update()
 			if err != nil {
 				log.Println("Error updating bookings")
