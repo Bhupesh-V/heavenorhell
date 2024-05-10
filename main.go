@@ -42,11 +42,6 @@ func generateTicketID(afterlife string) string {
 }
 
 func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
-	http.SetCookie(w, &http.Cookie{
-		Name:  "isTicketBooked",
-		Value: "true",
-	})
-
 	name := strings.TrimSpace(r.FormValue("name"))
 
 	var message string
@@ -83,7 +78,17 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	w.WriteHeader(http.StatusOK)
 
 	// Write the response body
-	response := fmt.Sprintf("%s you are booked for %s, your ticket id is <b class=\"ticketText %s\">#%s</b>", name, afterlife, afterlife, generateTicketID(afterlife))
+	ticketID := generateTicketID(afterlife)
+	response := fmt.Sprintf("%s you are booked for %s, your ticket id is <b class=\"ticketText %s\">#%s</b>", name, afterlife, afterlife, ticketID)
+	http.SetCookie(w, &http.Cookie{
+		Name:  "isTicketBooked",
+		Value: "true",
+	})
+	http.SetCookie(w, &http.Cookie{
+		Name:  "ticketID",
+		Value: ticketID,
+	})
+
 	w.Write([]byte(response))
 }
 
