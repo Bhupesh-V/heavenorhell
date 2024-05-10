@@ -111,6 +111,9 @@ func main() {
 	mux.HandleFunc("/choose-hell", func(w http.ResponseWriter, r *http.Request) {
 		logHTTPRequest(w, r, "Hell")
 	})
+	mux.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/robots.txt")
+	})
 
 	// mux.Handle("/", http.FileServer(http.Dir("./static")))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
