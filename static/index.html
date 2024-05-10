@@ -59,6 +59,19 @@
         justify-content: space-between;
         font-size: 28px;
       }
+      .ticketText {
+        border-style: dashed;
+        padding: 5px;
+      }
+      .Heaven {
+        color: #00ffcd;
+      }
+      .Hell {
+        color: #fe1a5a;
+      }
+      .soulName {
+        max-width: 80%;
+      }
     </style>
   </head>
   <body>
@@ -70,9 +83,12 @@
           You are already booked buddy, see you in the afterlife!
         </div>
         <div id="choices">
+          <input type="text" name="name" class="soulName" placeholder="What do they call you on earth?" /><br>
           <button
             id="choose-heaven"
             hx-post="/choose-heaven"
+            onclick="this.href += document.getElementById('name').value"
+            hx-include="[name='name']"
             hx-target="#choices"
             hx-swap="outerHTML"
           >
@@ -81,6 +97,8 @@
           <button
             id="choose-hell"
             hx-post="/choose-hell"
+            onclick="this.href += document.getElementById('name').value"
+            hx-include="[name='name']"
             hx-target="#choices"
             hx-swap="outerHTML"
           >
@@ -118,6 +136,28 @@
         <small>Hosted by <a href="https://buildndeploy.co/">BnD</a></small>
       </footer>
     </center>
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const nameInput = document.querySelector(".soulName");
+        const heavenButton = document.getElementById("choose-heaven");
+        const hellButton = document.getElementById("choose-hell");
+        // Initially hide the buttons
+        heavenButton.style.display = "none";
+        hellButton.style.display = "none";
+
+        nameInput.addEventListener("input", () => {
+          if (nameInput.value.trim() !== "") {
+            // Show the buttons if the input field is not empty
+            heavenButton.style.display = "inline";
+            hellButton.style.display = "inline";
+          } else {
+            // Hide the buttons if the input field is empty
+            heavenButton.style.display = "none";
+            hellButton.style.display = "none";
+          }
+        });
+      });
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", (event) => {
         const cookieValue = document.cookie

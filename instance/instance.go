@@ -3,6 +3,7 @@ package instance
 import (
 	"context"
 	"heavenorhell/entities/store"
+	"log"
 	"net/http"
 	"os"
 	"sync"
@@ -55,6 +56,7 @@ func Init() {
 
 		client := github.NewClient(tc)
 		// Get the existing gist
+		log.Println("Getting initial store")
 		gist, _, err := client.Gists.Get(ctx, store_id)
 		if err != nil {
 			panic(err)

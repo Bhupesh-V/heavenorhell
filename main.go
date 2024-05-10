@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -45,15 +46,17 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 		Value: "true",
 	})
 
+	name := strings.TrimSpace(r.FormValue("name"))
+
 	var message string
 	mu.Lock()
 	if afterlife == "Heaven" {
 		// pick random message from HeavenMessages
-		message = constants.HeavenMessages[rand.Intn(len(constants.HeavenMessages))]
+		message = fmt.Sprintf(constants.HeavenMessages[rand.Intn(len(constants.HeavenMessages))], name)
 		heavenBookings++
 	} else {
 		// pick random message from HellMessages
-		message = constants.HellMessages[rand.Intn(len(constants.HellMessages))]
+		message = fmt.Sprintf(constants.HellMessages[rand.Intn(len(constants.HellMessages))], name)
 		hellBookings++
 	}
 	mu.Unlock()
@@ -79,7 +82,7 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	w.WriteHeader(http.StatusOK)
 
 	// Write the response body
-	response := fmt.Sprintf("You are booked for %s, your ticket id is <b>#%s</b>", afterlife, generateTicketID(afterlife))
+	response := fmt.Sprintf("%s you are booked for %s, your ticket id is <b class=\"ticketText %s\">#%s</b>", name, afterlife, afterlife, generateTicketID(afterlife))
 	w.Write([]byte(response))
 }
 
