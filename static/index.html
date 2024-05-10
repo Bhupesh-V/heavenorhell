@@ -16,12 +16,24 @@
     <meta name="og:url" content="https://soul-ticket.web.ctfcompetition.com" />
     <meta name="og:type" content="website" />
     <meta name="og:site_name" content="Book a ticket for your soul" />
-    <meta name="og:image" content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png" />
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@bhupeshimself">
-    <meta name="twitter:title" content="Heaven or Hell? Book a ticket for your soul!">
-    <meta name="twitter:description" content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late">
+    <meta
+      name="og:image"
+      content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png"
+    />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/Bhupesh-V/heavenorhell/main/static/heavenhell.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@bhupeshimself" />
+    <meta
+      name="twitter:title"
+      content="Heaven or Hell? Book a ticket for your soul!"
+    />
+    <meta
+      name="twitter:description"
+      content="You have been slacking too much, its getting late. Book your tickets to heaven or hell before its too late"
+    />
 
     <title>Book a ticket for your soul</title>
     <link
@@ -52,7 +64,7 @@
       }
       #heaven-count-container,
       #hell-count-container {
-        display:block;
+        display: block;
       }
       #heaven-count,
       #hell-count {
@@ -87,7 +99,12 @@
           You are already booked buddy, see you in the afterlife!
         </div>
         <div id="choices">
-          <input type="text" name="name" class="soulName" placeholder="What do they call you on earth?" /><br>
+          <input
+            type="text"
+            name="name"
+            class="soulName"
+            placeholder="What do they call you on earth?"
+          /><br />
           <button
             id="choose-heaven"
             hx-post="/choose-heaven"
@@ -198,5 +215,19 @@
       };
     </script>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4TLGZ809LM"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4TLGZ809LM");
+    </script>
   </body>
 </html>
