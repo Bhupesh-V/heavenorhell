@@ -144,9 +144,9 @@ func main() {
 	addr := ":8080"
 	log.Println("Starting server on", addr)
 
-	// every 10 minutes, update the bookings
+	// every 5 minutes, try to update the bookings
 	go func() {
-		ticker := time.NewTicker(10 * time.Minute)
+		ticker := time.NewTicker(5 * time.Minute)
 		for range ticker.C {
 			bookings := &booking.Bookings{
 				Heaven: heavenBookings,

@@ -27,7 +27,7 @@ func (b *Bookings) Update() error {
 		return err
 	}
 
-	// only update the gist if the booking counts have changed
+	// only update the gist store if the booking counts have changed
 	if b.Heaven > currentBookings.Heaven || b.Hell > currentBookings.Hell {
 		log.Printf("Updating bookings at %s\n", time.Now().Format("2006-01-02 15:04:05"))
 		// Marshal the struct back into JSON
@@ -56,6 +56,8 @@ func (b *Bookings) Update() error {
 	return nil
 }
 
+// GetBookings retrieves the current bookings stats from the gist store
+// Only fetched when the server is restarted
 func GetBookings() (*Bookings, error) {
 	storeInstance := instance.Store()
 	gist := storeInstance.DataFile
