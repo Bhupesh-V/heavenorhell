@@ -2,6 +2,7 @@ package instance
 
 import (
 	"context"
+	"heavenorhell/entities/notification"
 	"heavenorhell/entities/store"
 	"log"
 	"net/http"
@@ -14,10 +15,11 @@ import (
 )
 
 type instance struct {
-	sseServer    *sse.Server
-	store        *store.Store
-	Oauth2Client *http.Client
-	GitHubClient *github.Client
+	sseServer      *sse.Server
+	store          *store.Store
+	Oauth2Client   *http.Client
+	GitHubClient   *github.Client
+	TelegramClient *notification.TelegramBot
 }
 
 var singleton = &instance{}
@@ -70,6 +72,19 @@ func Init() {
 		}
 		singleton.Oauth2Client = tc
 		singleton.GitHubClient = client
+
+		telegramToken := os.Getenv("TELEGRAM_TOKEN")
+		if telegramToken == "" {
+			panic("TELEGRAM_TOKEN is required")
+		}
+		telegramChatID := os.Getenv("TELEGRAM_CHAT_ID")
+		if telegramChatID == "" {
+			panic("TELEGRAM_CHAT_ID is required")
+		}
+		singleton.TelegramClient = &notification.TelegramBot{
+			Token:  telegramToken,
+			ChatID: telegramChatID,
+		}
 	})
 }
 
@@ -91,4 +106,9 @@ func Oauth2Client() *http.Client {
 // GitHubClient returns the github client
 func GitHubClient() *github.Client {
 	return singleton.GitHubClient
+}
+
+// TelegramClient returns the telegram client
+func TelegramClient() *notification.TelegramBot {
+	return singleton.TelegramClient
 }

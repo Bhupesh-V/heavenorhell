@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -57,6 +58,10 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	}
 	mu.Unlock()
 
+	go func() {
+		sendTelegramUpdate(fmt.Sprintf("%s has been booked for %s", name, afterlife))
+	}()
+
 	data := map[string]interface{}{
 		"message": message,
 		"counts": map[string]int{
@@ -90,6 +95,21 @@ func logHTTPRequest(w http.ResponseWriter, r *http.Request, afterlife string) {
 	})
 
 	w.Write([]byte(response))
+}
+
+func sendTelegramUpdate(message string) {
+	telegramInstance := instance.TelegramClient()
+	apiURL := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", telegramInstance.Token)
+	data := url.Values{
+		"chat_id": {telegramInstance.ChatID},
+		"text":    {message},
+	}
+
+	resp, err := http.PostForm(apiURL, data)
+	if err != nil {
+		log.Println("Error sending Telegram message:", err)
+	}
+	defer resp.Body.Close()
 }
 
 func main() {
