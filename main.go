@@ -179,19 +179,19 @@ func main() {
 	log.Println("Starting server on", addr)
 
 	// every 5 minutes, try to update the bookings
-	// go func() {
-	// 	ticker := time.NewTicker(5 * time.Minute)
-	// 	for range ticker.C {
-	// 		bookings := &booking.Bookings{
-	// 			Heaven: heavenBookings,
-	// 			Hell:   hellBookings,
-	// 		}
-	// 		err := bookings.Update()
-	// 		if err != nil {
-	// 			log.Println("Error updating bookings")
-	// 		}
-	// 	}
-	// }()
+	go func() {
+		ticker := time.NewTicker(5 * time.Minute)
+		for range ticker.C {
+			bookings := &booking.Bookings{
+				Heaven: heavenBookings,
+				Hell:   hellBookings,
+			}
+			err := bookings.Update()
+			if err != nil {
+				log.Println("Error updating bookings")
+			}
+		}
+	}()
 
 	err = http.ListenAndServe(addr, wrappedMux)
 	if err != nil {

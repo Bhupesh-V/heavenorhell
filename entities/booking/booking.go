@@ -33,7 +33,7 @@ func (b *Bookings) Update() error {
 		// Marshal the struct back into JSON
 		bookingsJson, err := json.Marshal(b)
 		if err != nil {
-			log.Println("Error marshalling emails")
+			log.Println("Error marshalling bookings")
 			return err
 		}
 
