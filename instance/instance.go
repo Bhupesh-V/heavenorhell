@@ -31,7 +31,7 @@ func Init() {
 		// disable replaying old events to new clients
 		server.AutoReplay = false
 		server.Headers = map[string]string{
-			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Origin":  "heavenorhell.zyz",
 			"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 		}
 		server.OnSubscribe = func(streamID string, sub *sse.Subscriber) {

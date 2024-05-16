@@ -112,6 +112,17 @@ func sendTelegramUpdate(message string) {
 	defer resp.Body.Close()
 }
 
+func allowDomainMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Replace 'alloweddomain.com' with your domain
+		if r.Host == "heavenorhell.xyz" {
+			next.ServeHTTP(w, r)
+		} else {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+		}
+	})
+}
+
 func main() {
 	instance.Init()
 	bookings, err := booking.GetBookings()
@@ -129,6 +140,7 @@ func main() {
 	server.CreateStream("messages")
 
 	mux := http.NewServeMux()
+	wrappedMux := allowDomainMiddleware(mux)
 	mux.HandleFunc("/events", server.ServeHTTP)
 	mux.HandleFunc("/choose-heaven", func(w http.ResponseWriter, r *http.Request) {
 		logHTTPRequest(w, r, "Heaven")
@@ -179,7 +191,7 @@ func main() {
 		}
 	}()
 
-	err = http.ListenAndServe(addr, mux)
+	err = http.ListenAndServe(addr, wrappedMux)
 	if err != nil {
 		log.Fatal(err)
 	}
