@@ -11,6 +11,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -116,9 +117,10 @@ func allowDomainMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Replace 'alloweddomain.com' with your domain
 		// fmt.Println(r.Host)
-		if r.Host == "heavenorhell.xyz" || r.Host == "10.0.140.7:20148" {
+		if r.Host == "heavenorhell.xyz" || r.Host == os.Getenv("IP_ADDRESS") {
 			next.ServeHTTP(w, r)
 		} else {
+			fmt.Println("Forbidden request from IP:", r.RemoteAddr)
 			http.Error(w, "Forbidden", http.StatusForbidden)
 		}
 	})
