@@ -116,7 +116,7 @@ func sendTelegramUpdate(message string) {
 func allowDomainMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Replace 'alloweddomain.com' with your domain
-		// fmt.Println(r.Host)
+		log.Println(r.Host)
 		if r.Host == "heavenorhell.xyz" || r.Host == os.Getenv("IP_ADDRESS") {
 			next.ServeHTTP(w, r)
 		} else {
@@ -133,11 +133,10 @@ func main() {
 		log.Println("Error getting bookings")
 		return
 	}
+	log.Printf("Current bookings: %#v\n", bookings)
 	// server has been restarted, so we need to get the bookings from the gist
-	// if bookings.Heaven > 0 || bookings.Hell > 0 {
 	heavenBookings = bookings.Heaven
 	hellBookings = bookings.Hell
-	// }
 
 	server := instance.SSEServer()
 	server.CreateStream("messages")
