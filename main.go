@@ -115,8 +115,8 @@ func sendTelegramUpdate(message string) {
 func allowDomainMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Replace 'alloweddomain.com' with your domain
-		fmt.Println(r.Host)
-		if r.Host == "heavenorhell.xyz" {
+		// fmt.Println(r.Host)
+		if r.Host == "heavenorhell.xyz" || r.Host == "10.0.140.7:20148" {
 			next.ServeHTTP(w, r)
 		} else {
 			http.Error(w, "Forbidden", http.StatusForbidden)
