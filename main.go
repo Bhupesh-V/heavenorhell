@@ -134,10 +134,10 @@ func main() {
 		return
 	}
 	// server has been restarted, so we need to get the bookings from the gist
-	if bookings.Heaven > 0 || bookings.Hell > 0 {
-		heavenBookings = bookings.Heaven
-		hellBookings = bookings.Hell
-	}
+	// if bookings.Heaven > 0 || bookings.Hell > 0 {
+	heavenBookings = bookings.Heaven
+	hellBookings = bookings.Hell
+	// }
 
 	server := instance.SSEServer()
 	server.CreateStream("messages")
