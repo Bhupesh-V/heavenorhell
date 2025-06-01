@@ -6,6 +6,7 @@ import (
 	"heavenorhell/constants"
 	"heavenorhell/entities/booking"
 	"heavenorhell/instance"
+	"heavenorhell/static"
 	"html/template"
 	"log"
 	"math/rand"
@@ -141,6 +142,9 @@ func main() {
 	server := instance.SSEServer()
 	server.CreateStream("messages")
 
+	// Create an HTTP filesystem from the embedded files
+	fs := http.FS(static.StaticFiles)
+
 	mux := http.NewServeMux()
 	wrappedMux := allowDomainMiddleware(mux)
 	mux.HandleFunc("/events", server.ServeHTTP)
@@ -151,10 +155,11 @@ func main() {
 		logHTTPRequest(w, r, "Hell")
 	})
 	mux.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "static/robots.txt")
+		// Serve robots.txt from embedded filesystem
+		http.FileServer(fs).ServeHTTP(w, r)
 	})
 
-	// mux.Handle("/", http.FileServer(http.Dir("./static")))
+	// Handle root with template from embedded filesystem
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		emojis := []string{"👹", "😇"}
 		rand.Seed(time.Now().UnixNano())
@@ -164,7 +169,14 @@ func main() {
 			FaviconEmoji: emojis[rand.Intn(len(emojis))],
 		}
 
-		tmpl, err := template.ParseFiles("static/index.html")
+		// Parse template from embedded filesystem
+		htmlContent, err := static.StaticFiles.ReadFile("index.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		tmpl, err := template.New("index.html").Parse(string(htmlContent))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -175,6 +187,10 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
+
+	// Serve static files from embedded filesystem
+	mux.Handle("/heavenorhell.png", http.FileServer(fs))
+
 	addr := ":3000"
 	log.Println("Starting server on", addr)
 
