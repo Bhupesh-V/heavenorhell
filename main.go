@@ -175,7 +175,7 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
-	addr := ":8080"
+	addr := ":3000"
 	log.Println("Starting server on", addr)
 
 	// every 5 minutes, try to update the bookings

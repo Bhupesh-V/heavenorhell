@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/google/go-github/github"
+	"github.com/joho/godotenv"
 	"github.com/r3labs/sse/v2"
 	"golang.org/x/oauth2"
 )
@@ -27,6 +28,10 @@ var once sync.Once
 
 func Init() {
 	once.Do(func() {
+		err := godotenv.Load()
+		if err != nil {
+			panic("Error loading .env file")
+		}
 		server := sse.New()
 		// disable replaying old events to new clients
 		server.AutoReplay = false
